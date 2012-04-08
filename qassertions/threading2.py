@@ -5,13 +5,14 @@ http://www.velocityreviews.com/forums/t330554-kill-a-thread-in-python.html
 http://docs.python.org/library/threading.html
 '''
 
-import threading
 import sys
+import threading
 import trace
-#
+
+
 class KThread(threading.Thread):
   """A subclass of threading.Thread, with a kill() method."""
-  
+
   def __init__(self, *args, **keywords):
     threading.Thread.__init__(self, *args, **keywords)
     self.killed = False
@@ -23,7 +24,7 @@ class KThread(threading.Thread):
     self.__run_backup = self.run
     self.run = self.__run # Force the Thread to install our trace.
     threading.Thread.start(self)
-    
+
   def joinWithTimeout(self, timeout):
     # Wait for timeout seconds to the thread terminates
     if timeout < 0: self.join()
@@ -35,7 +36,7 @@ class KThread(threading.Thread):
       self.join()
     if self.__exception is not None:
       raise self.__exception
-      
+
   def isExpired(self):
     return self.expired
 
@@ -48,7 +49,7 @@ class KThread(threading.Thread):
     except Exception, e:
       e.message = e.__class__.__name__ + ' in ' + self.getName() + ': ' + e.message
       self.__exception = e
-  
+
   def globaltrace(self, frame, why, arg):
     if why == 'call':
       return self.localtrace
@@ -63,7 +64,8 @@ class KThread(threading.Thread):
 
   def kill(self):
     self.killed = True
-    
+
+
 #import threading
 #import inspect
 #import ctypes
@@ -108,6 +110,7 @@ class KThread(threading.Thread):
 #        """raises SystemExit in the context of the given thread, which should 
 #        cause the thread to exit silently (unless caught)"""
 #        self.raise_exc(SystemExit)
+
 
 #class StoppableThread (threading.Thread):
 #  """Thread class with a stop() method. The thread itself has to check regularly for the stopped() condition."""
