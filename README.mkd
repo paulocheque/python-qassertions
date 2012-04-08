@@ -1,0 +1,7 @@
+# Python-QAssertions
+
+Library with additional assertions to help creation of good automated tests, including some special assertion that create additional test cases automatically like assertValidation
+
+* assertValidation
+* assertDontRaiseAnException
+* assertExceptionMessage
